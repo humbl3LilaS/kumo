@@ -13,14 +13,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/shared/Logo";
 import { Link } from "react-router-dom";
+import { createUserAccount } from "@/lib/appwrite/api";
 
 const SignupForm = () => {
 	const form = useForm<SignupFromSchemaType>({
 		resolver: zodResolver(SignupFormSchema),
 	});
 
-	const onSubmit: SubmitHandler<SignupFromSchemaType> = (value) => {
-		console.log(value);
+	const onSubmit: SubmitHandler<SignupFromSchemaType> = async (value) => {
+		const newUser = await createUserAccount(value);
+		console.log(newUser);
 	};
 
 	return (
