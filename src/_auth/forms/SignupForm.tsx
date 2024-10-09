@@ -164,7 +164,7 @@ const SignupForm = () => {
 								<span>Submitting</span>
 							</span>
 						) : (
-							<span>Submit</span>
+							<span>Sign Up</span>
 						)}
 					</Button>
 					<p className="mt-2 tex-small-regular text-center text-light-2 md:mt-4">

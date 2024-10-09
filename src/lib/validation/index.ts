@@ -32,7 +32,8 @@ export const SignupFormSchema = z.object({
 export type SignupFromSchemaType = Zod.infer<typeof SignupFormSchema>;
 
 export const SigninFormSchema = z.object({
-	email: z.string().email(),
+	email: z.string({ message: "email is required" }).email(),
+	password: z.string({ message: "password is required" }),
 });
 
 export type SinginFromSchemaType = Zod.infer<typeof SigninFormSchema>;
