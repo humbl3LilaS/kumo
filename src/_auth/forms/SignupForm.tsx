@@ -12,17 +12,52 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/shared/Logo";
-import { Link } from "react-router-dom";
-import { createUserAccount } from "@/lib/appwrite/api";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import {
+	useCreateUserAccountMutation,
+	useSignInAccountMutation,
+} from "@/lib/query/mutation";
+import { useUserStore } from "@/lib/store/userStore";
 
 const SignupForm = () => {
 	const form = useForm<SignupFromSchemaType>({
 		resolver: zodResolver(SignupFormSchema),
 	});
 
+	const checkIsAuthenticated = useUserStore(
+		(state) => state.checkIsAuthenticated,
+	);
+
+	const navigate = useNavigate();
+	const { mutateAsync: createUserAccount } = useCreateUserAccountMutation();
+
+	const { mutateAsync: signInAccount } = useSignInAccountMutation();
+
+	const { toast } = useToast();
+
 	const onSubmit: SubmitHandler<SignupFromSchemaType> = async (value) => {
 		const newUser = await createUserAccount(value);
-		console.log(newUser);
+		if (!newUser) {
+			return toast({ title: "Sign up failed, Please Try again" });
+		}
+
+		const session = await signInAccount({
+			email: value.email,
+			password: value.password,
+		});
+
+		if (!session) {
+			return toast({ title: "Sign up failed, Please Try again" });
+		}
+
+		const isLoggedIn = await checkIsAuthenticated();
+		if (isLoggedIn) {
+			form.reset();
+			navigate("/");
+		} else {
+			return toast({ title: "Sign up failed, Please Try again" });
+		}
 	};
 
 	return (

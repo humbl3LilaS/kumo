@@ -3,6 +3,7 @@ import Home from "./_root/pages/Home";
 import { SigninForm, SignupForm } from "./_auth/forms";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
+import { Toaster } from "./components/ui/toaster";
 
 const router = createBrowserRouter([
 	{
@@ -35,6 +36,7 @@ function App() {
 	return (
 		<main className="h-screen flex">
 			<RouterProvider router={router} />
+			<Toaster />
 		</main>
 	);
 }
