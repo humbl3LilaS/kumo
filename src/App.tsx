@@ -14,6 +14,26 @@ const router = createBrowserRouter([
 				index: true,
 				element: <Home />,
 			},
+			{
+				path: "explore",
+				element: <div>explore</div>,
+			},
+			{
+				path: "all-users",
+				element: <div>all users</div>,
+			},
+			{
+				path: "saved",
+				element: <div>saves</div>,
+			},
+			{
+				path: "create-post",
+				element: <div>create post</div>,
+			},
+			{
+				path: `profile/:userId`,
+				element: <div>profile</div>,
+			},
 		],
 	},
 	{

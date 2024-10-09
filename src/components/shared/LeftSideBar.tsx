@@ -32,7 +32,7 @@ const LeftSideBar = () => {
 					<span className="text-3xl font-extrabold tracking-wider">Kumo</span>
 				</Link>
 				<Link
-					to={`profile/${user?.id}`}
+					to={`profile/${user?.accountId}`}
 					className="flex items-center justify-start gap-x-4">
 					<img
 						src={user?.imageUrl || "/assets/icons/profile-placeholder.svg"}
