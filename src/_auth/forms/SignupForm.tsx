@@ -18,16 +18,11 @@ import {
 	useCreateUserAccountMutation,
 	useSignInAccountMutation,
 } from "@/lib/query/mutation";
-import { useUserStore } from "@/lib/store/userStore";
 
 const SignupForm = () => {
 	const form = useForm<SignupFromSchemaType>({
 		resolver: zodResolver(SignupFormSchema),
 	});
-
-	const checkIsAuthenticated = useUserStore(
-		(state) => state.checkIsAuthenticated,
-	);
 
 	const navigate = useNavigate();
 	const { mutateAsync: createUserAccount } = useCreateUserAccountMutation();
@@ -49,14 +44,8 @@ const SignupForm = () => {
 
 		if (!session) {
 			return toast({ title: "Sign up failed, Please Try again" });
-		}
-
-		const isLoggedIn = await checkIsAuthenticated();
-		if (isLoggedIn) {
-			form.reset();
-			navigate("/");
 		} else {
-			return toast({ title: "Sign up failed, Please Try again" });
+			navigate("/");
 		}
 	};
 

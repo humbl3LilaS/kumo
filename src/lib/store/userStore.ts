@@ -19,7 +19,7 @@ type Store = {
 type Action = {
 	setUser: (payload: TUserInfo) => void;
 	setIsAuthenticated: (payload: boolean) => void;
-	checkIsAuthenticated: () => Promise<boolean>;
+	loadUserFromSession: () => Promise<boolean>;
 };
 
 type UserStore = Store & Action;
@@ -36,7 +36,7 @@ export const useUserStore = create<UserStore>()(
 			set((state) => {
 				state.isAuthenticated = payload;
 			}),
-		checkIsAuthenticated: async () => {
+		loadUserFromSession: async () => {
 			try {
 				const currentAccount = await getCurrentUser();
 				if (currentAccount) {

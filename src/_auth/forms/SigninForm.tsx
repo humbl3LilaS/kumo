@@ -15,7 +15,6 @@ import Logo from "@/components/shared/Logo";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useToast } from "@/hooks/use-toast";
-import { useUserStore } from "@/lib/store/userStore";
 import { useSignInAccountMutation } from "@/lib/query/mutation";
 
 const SigninForm = () => {
@@ -27,25 +26,13 @@ const SigninForm = () => {
 
 	const navigate = useNavigate();
 
-	const checkIsAuthenticated = useUserStore(
-		(state) => state.checkIsAuthenticated,
-	);
-
 	const onSubmit: SubmitHandler<SinginFromSchemaType> = async (value) => {
 		const session = await signInAccount(value);
 
 		if (!session) {
 			toast({ title: "Login Failed. Please try again." });
-		}
-
-		const isLoggedIn = await checkIsAuthenticated();
-
-		if (isLoggedIn) {
-			form.reset();
-			navigate("/");
 		} else {
-			toast({ title: "Login Failed. Please try again." });
-			return;
+			navigate("/");
 		}
 	};
 
