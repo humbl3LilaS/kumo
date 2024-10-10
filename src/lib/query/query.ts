@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCurrentUser, getRecentPost } from "../appwrite/api";
+import { getCurrentUser, getPostById, getRecentPost } from "../appwrite/api";
 
 export const useUserQuery = () => {
 	return useQuery({
@@ -14,5 +14,13 @@ export const useGetRecentPosts = () => {
 		queryKey: ["recent-posts"],
 		queryFn: getRecentPost,
 		staleTime: 24 * 60 * 1000,
+	});
+};
+
+export const useGetPostById = (id: string) => {
+	return useQuery({
+		queryKey: ["recent-posts", id],
+		queryFn: () => getPostById(id),
+		enabled: !!id,
 	});
 };

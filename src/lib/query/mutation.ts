@@ -2,13 +2,20 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
 	createPost,
 	createUserAccount,
+	deletePost,
 	deleteSavePost,
 	likePost,
 	savePost,
 	signInAccount,
 	signOut,
+	updatePost,
 } from "../appwrite/api";
-import { SignInInfo, TPost, TUserSignUpInfo } from "../appwrite/api.types";
+import {
+	SignInInfo,
+	TPost,
+	TUpdatePost,
+	TUserSignUpInfo,
+} from "../appwrite/api.types";
 
 export const useCreateUserAccountMutation = () => {
 	return useMutation({
@@ -96,6 +103,35 @@ export const useDeleteSavePost = () => {
 			});
 			await queryClinet.invalidateQueries({
 				queryKey: ["recent-posts"],
+			});
+		},
+	});
+};
+
+export const useUpdatePost = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (post: TUpdatePost) => updatePost(post),
+		onSuccess: async (data) => {
+			await queryClient.invalidateQueries({
+				queryKey: ["recent-posts", data?.$id],
+			});
+		},
+	});
+};
+
+export const useDeletePost = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: ({ postId, imageId }: { postId: string; imageId: string }) =>
+			deletePost(postId, imageId),
+		onSuccess: async (data) => {
+			await queryClient.invalidateQueries({
+				queryKey: ["recent-posts"],
+			});
+			await queryClient.removeQueries({
+				queryKey: ["recept-posts", data?.postId],
+				exact: true,
 			});
 		},
 	});

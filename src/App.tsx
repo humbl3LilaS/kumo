@@ -5,6 +5,7 @@ import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
 import { Toaster } from "./components/ui/toaster";
 import CreatePost from "./_root/pages/CreatePost";
+import EditPost from "./_root/pages/EditPost";
 
 const router = createBrowserRouter([
 	{
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "update-post/:postId",
-				element: <div>update post</div>,
+				element: <EditPost />,
 			},
 			{
 				path: `profile/:userId`,

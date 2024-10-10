@@ -15,7 +15,7 @@ const Post = ({ data }: PostProp) => {
 		<div className="post-card">
 			<div className="flex-between">
 				<div className="flex items-center gap-x-5">
-					<Link to={`profile/${data.creator.$id}`}>
+					<Link to={`profile/${data.creator?.$id}`}>
 						<img
 							src={
 								data?.creator?.imageUrl ||
@@ -41,8 +41,9 @@ const Post = ({ data }: PostProp) => {
 					</div>
 				</div>
 				<Link
-					to={`/update-post/${data.$id}`}
-					className={cn(user?.$id !== data.creator.$id && "hidden")}>
+					to={`/update-post/${data?.$id}`}
+					className={cn(user?.$id !== data.creator?.$id && "hidden")}
+					state={data}>
 					<img
 						src="/assets/icons/edit.svg"
 						alt="edit"
@@ -51,7 +52,7 @@ const Post = ({ data }: PostProp) => {
 				</Link>
 			</div>
 			<Link
-				to={`/posts/${data.$id}`}
+				to={`/posts/${data?.$id}`}
 				is="div">
 				<div className="py-5 small-medium lg:base-medium">
 					<p className="text-left">{data.caption}</p>

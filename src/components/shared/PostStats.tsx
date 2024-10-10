@@ -25,9 +25,9 @@ const PostStats = ({ data, userId }: PostStatsProps) => {
 
 	useEffect(() => {
 		const savedPostRecord = user?.save.find(
-			(record: Models.Document) => record.post.$id === data.$id,
+			(record: Models.Document) => record?.post?.$id === data.$id,
 		);
-		const likesList = data.likes.map((user: Models.Document) => user.$id);
+		const likesList = data.likes.map((user: Models.Document) => user?.$id);
 		setIsSaved(!!savedPostRecord);
 		setLikes(likesList);
 	}, [user, data]);
@@ -57,7 +57,7 @@ const PostStats = ({ data, userId }: PostStatsProps) => {
 
 	const savePostHandler = () => {
 		const savedRecord = user?.save?.find(
-			(record: Models.Document) => record.post.$id === data.$id,
+			(record: Models.Document) => record?.post?.$id === data.$id,
 		);
 		if (savedRecord) {
 			deleteSavePost(savedRecord.$id);

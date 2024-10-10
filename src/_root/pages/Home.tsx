@@ -20,7 +20,7 @@ const Home = () => {
 		}
 		if (user) {
 			setUser({
-				id: user.$id,
+				id: user?.$id,
 				name: user?.name,
 				email: user?.email,
 				username: user?.username,
@@ -41,7 +41,7 @@ const Home = () => {
 								posts.documents.map((item) => (
 									<Post
 										data={item}
-										key={item.$id}
+										key={item?.$id}
 									/>
 								))}
 						</ul>

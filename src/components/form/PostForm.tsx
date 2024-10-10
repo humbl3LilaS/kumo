@@ -15,15 +15,20 @@ import { Input } from "../ui/input";
 import { PostFormSchema, PostFromSchemaType } from "@/lib/validation";
 import { Models } from "appwrite";
 import { useUserQuery } from "@/lib/query/query";
-import { useCreatePostMutation } from "@/lib/query/mutation";
+import {
+	useCreatePostMutation,
+	useDeletePost,
+	useUpdatePost,
+} from "@/lib/query/mutation";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 type PostFormProps = {
 	post?: Models.Document;
+	action: "Create" | "Update";
 };
 
-const PostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action }: PostFormProps) => {
 	const { data: user } = useUserQuery();
 
 	const navigate = useNavigate();
@@ -36,14 +41,31 @@ const PostForm = ({ post }: PostFormProps) => {
 			caption: post ? post?.caption : "",
 			file: [],
 			location: post ? post?.location : "",
-			tags: post ? post?.tags.joins(", ") : "",
+			tags: post ? post.tags : "",
 		},
 	});
 
 	const { mutateAsync: createPost } = useCreatePostMutation();
 
+	const { mutateAsync: updatePost } = useUpdatePost();
+
+	const { mutateAsync: deletePost, isPending: isDeleting } = useDeletePost();
+
 	const onSubmit: SubmitHandler<PostFromSchemaType> = async (value) => {
-		console.log(value);
+		if (post && action === "Update") {
+			const updatedPost = await updatePost({
+				...value,
+				postId: post?.$id,
+				imageId: post?.imageId,
+				imageUrl: post?.imageUrl,
+			});
+
+			if (!updatedPost) {
+				toast({ title: "Update Failed Try again" });
+			}
+
+			return navigate(`/posts/${post.$id}`);
+		}
 		const newPost = await createPost({
 			...value,
 			userId: user?.$id ?? "",
@@ -54,6 +76,14 @@ const PostForm = ({ post }: PostFormProps) => {
 		}
 
 		navigate("/");
+	};
+
+	const cancelBtnHandler = async () => {
+		if (action === "Update") {
+			console.log("action delete");
+			await deletePost({ postId: post?.$id ?? "", imageId: post?.imageId });
+		}
+		return navigate("/");
 	};
 
 	return (
@@ -85,7 +115,10 @@ const PostForm = ({ post }: PostFormProps) => {
 						<FormItem className="mb-4">
 							<FormLabel className="shad-form_label">File</FormLabel>
 							<FormControl>
-								<FileUploader onChange={field.onChange} />
+								<FileUploader
+									onChange={field.onChange}
+									mediaUrl={post?.imageUrl}
+								/>
 							</FormControl>
 							<FormMessage className="shad-form_textmessage" />
 						</FormItem>
@@ -135,8 +168,20 @@ const PostForm = ({ post }: PostFormProps) => {
 				<div className="flex items-center justify-end gap-x-4">
 					<Button
 						type="button"
-						className="w-[6rem] shad-button_dark_4  md:w-[8rem]">
-						Cancel
+						className="w-[6rem] shad-button_dark_4  md:w-[8rem]"
+						onClick={cancelBtnHandler}>
+						{isDeleting ? (
+							<span className="w-full flex items-center gap-x-2">
+								<img
+									src="/assets/icons/loader.svg"
+									alt="loading"
+									className="aspect-square w-5"
+								/>
+								<span>Submitting</span>
+							</span>
+						) : (
+							<span>{action === "Update" ? "Delete" : "Cancel"}</span>
+						)}
 					</Button>
 
 					<Button
@@ -153,7 +198,7 @@ const PostForm = ({ post }: PostFormProps) => {
 								<span>Submitting</span>
 							</span>
 						) : (
-							<span>Submit</span>
+							<span>{action}</span>
 						)}
 					</Button>
 				</div>

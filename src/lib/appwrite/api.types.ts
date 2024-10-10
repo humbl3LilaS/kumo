@@ -17,3 +17,13 @@ export interface TPost {
 	location?: string;
 	tags?: string;
 }
+
+export interface TUpdatePost {
+	postId: string;
+	caption: string;
+	imageId: string;
+	imageUrl: URL;
+	file: File[];
+	location?: string;
+	tags?: string;
+}
