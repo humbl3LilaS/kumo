@@ -24,14 +24,26 @@ export const useCreateUserAccountMutation = () => {
 };
 
 export const useSignInAccountMutation = () => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (user: SignInInfo) => signInAccount(user),
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({
+				queryKey: ["user"],
+			});
+		},
 	});
 };
 
 export const useSignOutAccountMutation = () => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: signOut,
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({
+				queryKey: ["user"],
+			});
+		},
 	});
 };
 
