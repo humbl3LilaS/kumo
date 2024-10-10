@@ -37,3 +37,15 @@ export const SigninFormSchema = z.object({
 });
 
 export type SinginFromSchemaType = Zod.infer<typeof SigninFormSchema>;
+
+export const PostFormSchema = z.object({
+	caption: z
+		.string({ message: "Caption cannot be empty" })
+		.min(1, { message: "Invalid caption" })
+		.max(200, { message: "Caption too long" }),
+	file: z.custom<File[]>(),
+	location: z.string().optional(),
+	tags: z.string().optional(),
+});
+
+export type PostFromSchemaType = Zod.infer<typeof PostFormSchema>;

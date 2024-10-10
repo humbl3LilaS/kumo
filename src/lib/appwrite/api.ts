@@ -1,6 +1,6 @@
-import { ID, Query } from "appwrite";
-import { SignInInfo, TUserSignUpInfo } from "./api.types";
-import { account, appwriteConfig, avatars, databases } from "./config";
+import { ID, ImageGravity, Query } from "appwrite";
+import { SignInInfo, TPost, TUserSignUpInfo } from "./api.types";
+import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 export async function createUserAccount(user: TUserSignUpInfo) {
 	try {
@@ -90,5 +90,83 @@ export async function signOut() {
 		await account.deleteSession("current");
 	} catch (error) {
 		console.log(error);
+	}
+}
+
+export async function uploadFile(file: File) {
+	try {
+		const uploadedFile = await storage.createFile(
+			appwriteConfig.storageId,
+			ID.unique(),
+			file,
+		);
+		return uploadedFile;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export async function deleteFile(fileId: string) {
+	try {
+		await storage.deleteFile(appwriteConfig.storageId, fileId);
+	} catch (error) {
+		console.log("error in deleteFile", error);
+	}
+}
+
+export function getFileUrl(fileId: string) {
+	try {
+		const fileUrl = storage.getFilePreview(
+			appwriteConfig.storageId,
+			fileId,
+			2000,
+			2000,
+			"top" as ImageGravity,
+			100,
+		);
+
+		if (!fileUrl) {
+			throw new Error();
+		}
+		return fileUrl;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export async function createPost(post: TPost) {
+	try {
+		const uploadedFile = await uploadFile(post.file[0]);
+
+		if (!uploadedFile) {
+			throw new Error();
+		}
+
+		const fileUrl = getFileUrl(uploadedFile.$id);
+
+		const tags = post.tags?.replace(/ /g, "").split(",") || [];
+
+		const newPost = await databases.createDocument(
+			appwriteConfig.databaeId,
+			appwriteConfig.postsCollectionId,
+			ID.unique(),
+			{
+				creator: post.userId,
+				caption: post.caption,
+				imageUrl: fileUrl,
+				imageId: uploadedFile.$id,
+				location: post.location,
+				tags: tags,
+			},
+		);
+
+		if (!newPost) {
+			await deleteFile(uploadedFile.$id);
+			throw Error;
+		}
+
+		return newPost;
+	} catch (error) {
+		console.log("error in createPost", error);
 	}
 }
