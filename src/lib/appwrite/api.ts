@@ -144,7 +144,12 @@ export async function createPost(post: TPost) {
 
 		const fileUrl = getFileUrl(uploadedFile.$id);
 
-		const tags = post.tags?.replace(/ /g, "").split(",") || [];
+		// const tags = post.tags === "" ||  post.tags?.replace(/ /g, "").split(",") || [];
+
+		const tags =
+			post.tags === ""
+				? []
+				: post.tags === "" || post.tags?.replace(/ /g, "").split(",") || [];
 
 		const newPost = await databases.createDocument(
 			appwriteConfig.databaeId,
@@ -168,5 +173,81 @@ export async function createPost(post: TPost) {
 		return newPost;
 	} catch (error) {
 		console.log("error in createPost", error);
+	}
+}
+
+export async function getRecentPost() {
+	try {
+		const posts = await databases.listDocuments(
+			appwriteConfig.databaeId,
+			appwriteConfig.postsCollectionId,
+			[Query.orderDesc("$createdAt"), Query.limit(20)],
+		);
+
+		if (!posts) {
+			throw new Error();
+		}
+
+		return posts;
+	} catch (error) {
+		console.log("error at getRecentPost", error);
+	}
+}
+
+export async function likePost(postId: string, likesArray: string[]) {
+	try {
+		const updatedPost = await databases.updateDocument(
+			appwriteConfig.databaeId,
+			appwriteConfig.postsCollectionId,
+			postId,
+			{
+				likes: likesArray,
+			},
+		);
+		if (!updatedPost) {
+			throw new Error();
+		}
+
+		return updatedPost;
+	} catch (error) {
+		console.log("error at likePost", error);
+	}
+}
+
+export async function savePost(postId: string, userId: string) {
+	try {
+		const savedPost = await databases.createDocument(
+			appwriteConfig.databaeId,
+			appwriteConfig.savesCollectionId,
+			ID.unique(),
+			{
+				user: userId,
+				post: postId,
+			},
+		);
+		if (!savedPost) {
+			throw new Error();
+		}
+
+		return savedPost;
+	} catch (error) {
+		console.log("error at likePost", error);
+	}
+}
+
+export async function deleteSavePost(savedRecordId: string) {
+	try {
+		const statusCode = await databases.deleteDocument(
+			appwriteConfig.databaeId,
+			appwriteConfig.savesCollectionId,
+			savedRecordId,
+		);
+		if (!statusCode) {
+			throw new Error();
+		}
+
+		return { status: "ok" };
+	} catch (error) {
+		console.log("error at likePost", error);
 	}
 }

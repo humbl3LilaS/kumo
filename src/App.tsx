@@ -28,8 +28,16 @@ const router = createBrowserRouter([
 				element: <div>saves</div>,
 			},
 			{
+				path: "posts/:id",
+				element: <div>post deatail</div>,
+			},
+			{
 				path: "create-post",
 				element: <CreatePost />,
+			},
+			{
+				path: "update-post/:postId",
+				element: <div>update post</div>,
 			},
 			{
 				path: `profile/:userId`,
