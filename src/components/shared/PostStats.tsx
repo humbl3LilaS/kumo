@@ -20,26 +20,27 @@ const PostStats = ({ data, userId }: PostStatsProps) => {
 	const [isSaved, setIsSaved] = useState(false);
 	const { data: user } = useUserQuery();
 	const { mutate: likePost } = useLikePost();
-	const { mutate: savePost, isPending: isSaving } = useSavePost();
-	const { mutate: deleteSavePost, isPending: isDeleting } = useDeleteSavePost();
+	const { mutate: savePost } = useSavePost();
+	const { mutate: deleteSavePost } = useDeleteSavePost();
 
 	useEffect(() => {
 		const savedPostRecord = user?.save.find(
 			(record: Models.Document) => record.post.$id === data.$id,
 		);
+		const likesList = data.likes.map((user: Models.Document) => user.$id);
 		setIsSaved(!!savedPostRecord);
-	}, [user]);
+		setLikes(likesList);
+	}, [user, data]);
 
 	const likePostHandler = async (e: React.MouseEvent) => {
 		e.stopPropagation();
-		const hasLiked = likes.includes(userId ?? "");
-		if (hasLiked) {
+		if (checkIsLiked(likes, userId ?? "")) {
 			setLikes(
 				produce((draft) => {
 					const newLikes = draft.filter((item) => item !== userId);
-					console.log(newLikes);
+					console.log("newLikes", newLikes);
 					likePost({ postId: data.$id, likesArray: newLikes });
-					draft = draft.filter((item) => item !== userId);
+					draft = newLikes;
 				}),
 			);
 		} else {
@@ -81,16 +82,12 @@ const PostStats = ({ data, userId }: PostStatsProps) => {
 				<span className="small-medium lg:base-medium">{likes.length}</span>
 			</div>
 			<div className=" flex gap-2">
-				{isSaving || isDeleting ? (
-					<div>Loading</div>
-				) : (
-					<img
-						src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
-						alt="heart"
-						className="aspect-square w-5 cursor-pointer"
-						onClick={savePostHandler}
-					/>
-				)}
+				<img
+					src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
+					alt="heart"
+					className="aspect-square w-5 cursor-pointer"
+					onClick={savePostHandler}
+				/>
 			</div>
 		</div>
 	);

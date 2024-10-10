@@ -83,7 +83,7 @@ const PostForm = ({ post }: PostFormProps) => {
 					name="file"
 					render={({ field }) => (
 						<FormItem className="mb-4">
-							<FormLabel className="shad-form_label">Caption</FormLabel>
+							<FormLabel className="shad-form_label">File</FormLabel>
 							<FormControl>
 								<FileUploader onChange={field.onChange} />
 							</FormControl>

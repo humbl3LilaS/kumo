@@ -8,7 +8,7 @@ const Home = () => {
 	const navigate = useNavigate();
 	const setUser = useUserStore((state) => state.setUser);
 	const { data: user } = useUserQuery();
-	const { data: posts, isFetching } = useGetRecentPosts();
+	const { data: posts } = useGetRecentPosts();
 
 	useEffect(() => {
 		if (
@@ -35,9 +35,7 @@ const Home = () => {
 			<div className="home-container">
 				<div className="home-posts">
 					<h2 className="w-full h3-bold text-left md:h2-bold ">Home Feed</h2>
-					{isFetching ? (
-						<div>loading</div>
-					) : (
+					{posts ? (
 						<ul className="w-full flex-1 flex flex-col gap-y-9">
 							{posts &&
 								posts.documents.map((item) => (
@@ -47,6 +45,8 @@ const Home = () => {
 									/>
 								))}
 						</ul>
+					) : (
+						<div>loading</div>
 					)}
 				</div>
 			</div>

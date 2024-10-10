@@ -144,8 +144,6 @@ export async function createPost(post: TPost) {
 
 		const fileUrl = getFileUrl(uploadedFile.$id);
 
-		// const tags = post.tags === "" ||  post.tags?.replace(/ /g, "").split(",") || [];
-
 		const tags =
 			post.tags === ""
 				? []

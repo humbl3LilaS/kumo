@@ -32,9 +32,9 @@ export const useCreatePostMutation = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (post: TPost) => createPost(post),
-		onSuccess: () => {
-			queryClient.invalidateQueries({
+		mutationFn: async (post: TPost) => createPost(post),
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({
 				queryKey: ["recent-posts"],
 			});
 		},
@@ -56,6 +56,9 @@ export const useLikePost = () => {
 			queryClinet.invalidateQueries({
 				queryKey: ["recent-posts"],
 			});
+			queryClinet.invalidateQueries({
+				queryKey: ["user"],
+			});
 		},
 	});
 };
@@ -64,13 +67,18 @@ export const useSavePost = () => {
 	const queryClinet = useQueryClient();
 
 	return useMutation({
-		mutationFn: ({ postId, userId }: { postId: string; userId: string }) =>
-			savePost(postId, userId),
-		onSuccess: () => {
-			queryClinet.invalidateQueries({
+		mutationFn: async ({
+			postId,
+			userId,
+		}: {
+			postId: string;
+			userId: string;
+		}) => savePost(postId, userId),
+		onSuccess: async () => {
+			await queryClinet.invalidateQueries({
 				queryKey: ["user"],
 			});
-			queryClinet.invalidateQueries({
+			await queryClinet.invalidateQueries({
 				queryKey: ["recent-posts"],
 			});
 		},
@@ -82,11 +90,11 @@ export const useDeleteSavePost = () => {
 
 	return useMutation({
 		mutationFn: (saveRecordId: string) => deleteSavePost(saveRecordId),
-		onSuccess: () => {
-			queryClinet.invalidateQueries({
+		onSuccess: async () => {
+			await queryClinet.invalidateQueries({
 				queryKey: ["user"],
 			});
-			queryClinet.invalidateQueries({
+			await queryClinet.invalidateQueries({
 				queryKey: ["recent-posts"],
 			});
 		},
