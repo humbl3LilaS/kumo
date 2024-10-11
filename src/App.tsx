@@ -7,6 +7,7 @@ import { Toaster } from "./components/ui/toaster";
 import CreatePost from "./_root/pages/CreatePost";
 import EditPost from "./_root/pages/EditPost";
 import PostDetails from "./_root/pages/PostDetails";
+import Explore from "./_root/pages/Explore";
 
 const router = createBrowserRouter([
 	{
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "explore",
-				element: <div>explore</div>,
+				element: <Explore />,
 			},
 			{
 				path: "all-users",

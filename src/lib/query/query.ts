@@ -1,5 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { getCurrentUser, getPostById, getRecentPost } from "../appwrite/api";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+	getCurrentUser,
+	getInfinitePosts,
+	getPostById,
+	getRecentPost,
+	searchPost,
+} from "../appwrite/api";
 
 export const useUserQuery = () => {
 	return useQuery({
@@ -22,5 +28,34 @@ export const useGetPostById = (id: string) => {
 		queryKey: ["recent-posts", id],
 		queryFn: () => getPostById(id),
 		enabled: !!id,
+	});
+};
+
+export const useGetPosts = () => {
+	return useInfiniteQuery({
+		queryKey: ["infinite-posts"],
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		queryFn: getInfinitePosts as unknown as any,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		getNextPageParam: (lastPage: any) => {
+			// If there's no data, there are no more pages.
+			if (lastPage && lastPage.documents.length === 0) {
+				return null;
+			}
+
+			// Use the $id of the last document as the cursor.
+			const lastId = lastPage?.documents[lastPage?.documents.length - 1].$id;
+			return lastId;
+		},
+		initialPageParam: "",
+		staleTime: 24 * 60 * 1000,
+	});
+};
+
+export const useSearchPost = (searchTerm: string) => {
+	return useQuery({
+		queryKey: ["searched-posts"],
+		queryFn: () => searchPost({ searchTerm }),
+		enabled: !!searchTerm,
 	});
 };

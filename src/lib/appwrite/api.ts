@@ -355,3 +355,44 @@ export async function getPostById(postId?: string) {
 		console.log(error);
 	}
 }
+
+export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
+	const queries = [Query.orderDesc("$updatedAt"), Query.limit(10)];
+	if (pageParam) {
+		queries.push(Query.cursorAfter(pageParam.toString()));
+	}
+
+	try {
+		const posts = databases.listDocuments(
+			appwriteConfig.databaeId,
+			appwriteConfig.postsCollectionId,
+			queries,
+		);
+
+		if (!posts) {
+			throw new Error();
+		}
+
+		return posts;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export async function searchPost({ searchTerm }: { searchTerm: string }) {
+	try {
+		const posts = databases.listDocuments(
+			appwriteConfig.databaeId,
+			appwriteConfig.postsCollectionId,
+			[Query.search("caption", searchTerm)],
+		);
+
+		if (!posts) {
+			throw new Error();
+		}
+
+		return posts;
+	} catch (error) {
+		console.log(error);
+	}
+}
