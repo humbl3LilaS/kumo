@@ -6,6 +6,7 @@ import {
 	getPostById,
 	getRecentPost,
 	getSavedPost,
+	getUserById,
 	searchPost,
 } from "../appwrite/api";
 
@@ -75,6 +76,15 @@ export const useGetAllUser = (currnetUserId: string | undefined) => {
 	return useQuery({
 		queryKey: ["all-user"],
 		queryFn: () => getAllUsers(currnetUserId),
+		staleTime: 24 * 60 * 1000,
+	});
+};
+
+export const useGetUserById = (userId: string) => {
+	return useQuery({
+		queryKey: ["user", userId],
+		queryFn: () => getUserById(userId),
+		enabled: !!userId,
 		staleTime: 24 * 60 * 1000,
 	});
 };

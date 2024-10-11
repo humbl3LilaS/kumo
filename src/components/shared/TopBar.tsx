@@ -40,7 +40,7 @@ const TopBar = () => {
 						/>
 					</Button>
 					<Link
-						to={`/profile/${user?.accountId}`}
+						to={`/profile/${user?.$id}`}
 						className="flex-center gap-3">
 						{!isFetching && (
 							<img

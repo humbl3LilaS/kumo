@@ -10,6 +10,8 @@ import PostDetails from "./_root/pages/PostDetails";
 import Explore from "./_root/pages/Explore";
 import Save from "./_root/pages/Save";
 import AllUsers from "./_root/pages/AllUsers";
+import Profile from "./_root/pages/Profile";
+import EditProfile from "./_root/pages/EditProfile";
 
 const router = createBrowserRouter([
 	{
@@ -46,7 +48,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: `profile/:userId`,
-				element: <div>profile</div>,
+				element: <Profile />,
+			},
+			{
+				path: "profile/edit/:userId",
+				element: <EditProfile />,
 			},
 		],
 	},

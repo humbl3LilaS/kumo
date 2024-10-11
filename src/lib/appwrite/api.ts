@@ -363,7 +363,7 @@ export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
 	}
 
 	try {
-		const posts = databases.listDocuments(
+		const posts = await databases.listDocuments(
 			appwriteConfig.databaeId,
 			appwriteConfig.postsCollectionId,
 			queries,
@@ -381,7 +381,7 @@ export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
 
 export async function searchPost({ searchTerm }: { searchTerm: string }) {
 	try {
-		const posts = databases.listDocuments(
+		const posts = await databases.listDocuments(
 			appwriteConfig.databaeId,
 			appwriteConfig.postsCollectionId,
 			[Query.search("caption", searchTerm)],
@@ -400,7 +400,7 @@ export async function searchPost({ searchTerm }: { searchTerm: string }) {
 export async function getSavedPost({ userId }: { userId: string }) {
 	console.log("userId", userId);
 	try {
-		const savedPost = databases.listDocuments(
+		const savedPost = await databases.listDocuments(
 			appwriteConfig.databaeId,
 			appwriteConfig.savesCollectionId,
 			[Query.equal("user", userId)],
@@ -408,7 +408,7 @@ export async function getSavedPost({ userId }: { userId: string }) {
 		if (!savedPost) {
 			throw new Error();
 		}
-		return savedPost;
+		return savedPost.documents;
 	} catch (error) {
 		console.log("error occour at getSavedPost", error);
 	}
@@ -420,7 +420,7 @@ export async function getAllUsers(currentUserId: string | undefined) {
 			return;
 		}
 
-		const users = databases.listDocuments(
+		const users = await databases.listDocuments(
 			appwriteConfig.databaeId,
 			appwriteConfig.usersCollectionId,
 			[Query.notEqual("$id", currentUserId)],
@@ -431,5 +431,24 @@ export async function getAllUsers(currentUserId: string | undefined) {
 		return users;
 	} catch (error) {
 		console.log("error occour at getAllUser", error);
+	}
+}
+
+export async function getUserById(userId: string) {
+	console.log(userId);
+
+	try {
+		const user = await databases.listDocuments(
+			appwriteConfig.databaeId,
+			appwriteConfig.usersCollectionId,
+			[Query.equal("$id", userId)],
+		);
+		if (!user) {
+			throw new Error();
+		}
+		console.log("user in api", user);
+		return user.documents[0];
+	} catch (error) {
+		console.log("error occour at getUserById", error);
 	}
 }

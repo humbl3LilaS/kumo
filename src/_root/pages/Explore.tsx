@@ -57,6 +57,7 @@ const Explore = () => {
 							<GridPostList
 								key={`page-${index}`}
 								posts={item.documents}
+								showStatus={true}
 							/>
 						))}
 				</div>
@@ -64,7 +65,12 @@ const Explore = () => {
 
 			{searchValue && (
 				<div className="w-full max-w-5xl flex flex-wrap gap-9">
-					{searchedPosts && <GridPostList posts={searchedPosts.documents} />}
+					{searchedPosts && (
+						<GridPostList
+							posts={searchedPosts.documents}
+							showStatus={true}
+						/>
+					)}
 				</div>
 			)}
 
