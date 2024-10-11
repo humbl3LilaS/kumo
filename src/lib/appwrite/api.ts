@@ -396,3 +396,20 @@ export async function searchPost({ searchTerm }: { searchTerm: string }) {
 		console.log(error);
 	}
 }
+
+export async function getSavedPost({ userId }: { userId: string }) {
+	console.log("userId", userId);
+	try {
+		const savedPost = databases.listDocuments(
+			appwriteConfig.databaeId,
+			appwriteConfig.savesCollectionId,
+			[Query.equal("user", userId)],
+		);
+		if (!savedPost) {
+			throw new Error();
+		}
+		return savedPost;
+	} catch (error) {
+		console.log("error occour at getSavedPost", error);
+	}
+}

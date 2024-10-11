@@ -4,6 +4,7 @@ import {
 	getInfinitePosts,
 	getPostById,
 	getRecentPost,
+	getSavedPost,
 	searchPost,
 } from "../appwrite/api";
 
@@ -57,5 +58,14 @@ export const useSearchPost = (searchTerm: string) => {
 		queryKey: ["searched-posts"],
 		queryFn: () => searchPost({ searchTerm }),
 		enabled: !!searchTerm,
+	});
+};
+
+export const useSavedPostByUserId = (userId: string) => {
+	return useQuery({
+		queryKey: ["saved-posts"],
+		queryFn: () => getSavedPost({ userId }),
+		enabled: !!userId,
+		staleTime: 24 * 60 * 1000,
 	});
 };

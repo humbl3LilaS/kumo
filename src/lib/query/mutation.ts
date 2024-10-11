@@ -100,6 +100,9 @@ export const useSavePost = () => {
 			await queryClinet.invalidateQueries({
 				queryKey: ["recent-posts"],
 			});
+			await queryClinet.invalidateQueries({
+				queryKey: ["saved-posts"],
+			});
 		},
 	});
 };
@@ -115,6 +118,9 @@ export const useDeleteSavePost = () => {
 			});
 			await queryClinet.invalidateQueries({
 				queryKey: ["recent-posts"],
+			});
+			await queryClinet.invalidateQueries({
+				queryKey: ["saved-posts"],
 			});
 		},
 	});

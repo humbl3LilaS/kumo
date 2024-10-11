@@ -9,18 +9,19 @@ type GridPostListProp = {
 
 const GridPostList = ({ posts }: GridPostListProp) => {
 	const { data: user } = useUserQuery();
+	console.log(posts);
 	return (
 		<ul className="grid-container">
 			{posts.map((post: Models.Document) => {
 				return (
 					<li
-						key={post.$id}
+						key={post?.$id}
 						className="min-w-80 h-80 block relative">
 						<Link
 							to={`/posts/${post.$id}`}
 							className="grid-post_link">
 							<img
-								src={post.imageUrl}
+								src={post?.imageUrl}
 								alt="post image"
 								className="w-full h-full object-cover"
 							/>
@@ -36,7 +37,7 @@ const GridPostList = ({ posts }: GridPostListProp) => {
 									alt="creator"
 									className="w-8 h-8 rounded-full"
 								/>
-								<p className="line-clamp-1">{post.creator.name}</p>
+								<p className="line-clamp-1">{post?.creator?.name}</p>
 							</div>
 							<PostStats
 								data={post}

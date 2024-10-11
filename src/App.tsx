@@ -8,6 +8,7 @@ import CreatePost from "./_root/pages/CreatePost";
 import EditPost from "./_root/pages/EditPost";
 import PostDetails from "./_root/pages/PostDetails";
 import Explore from "./_root/pages/Explore";
+import Save from "./_root/pages/Save";
 
 const router = createBrowserRouter([
 	{
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "saved",
-				element: <div>saves</div>,
+				element: <Save />,
 			},
 			{
 				path: "posts/:postId",
