@@ -10,7 +10,6 @@ type GridPostListProp = {
 
 const GridPostList = ({ posts, showStatus }: GridPostListProp) => {
 	const { data: user } = useUserQuery();
-	console.log("posts in Grid post list", posts);
 	return (
 		<ul className="grid-container">
 			{posts &&

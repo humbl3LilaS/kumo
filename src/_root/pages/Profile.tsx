@@ -11,13 +11,11 @@ const Profile = () => {
 	const [showLikedPost, setShowLikedPost] = useState(false);
 	const postHandler = () => {
 		if (showLikedPost) {
-			console.log("posthandler invoke");
 			setShowLikedPost(false);
 		}
 	};
 	const likedPostHandler = () => {
 		if (!showLikedPost) {
-			console.log("likePosthandler invoke");
 			setShowLikedPost(true);
 		}
 	};

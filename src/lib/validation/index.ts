@@ -49,3 +49,20 @@ export const PostFormSchema = z.object({
 });
 
 export type PostFromSchemaType = Zod.infer<typeof PostFormSchema>;
+
+export const ProfileFormSchema = z.object({
+	name: z
+		.string({ message: "name is required" })
+		.min(2, { message: "name must be at least 2 characters." })
+		.max(30, { message: "name must be at most 30 characters." }),
+	userName: z
+		.string({ message: "Username is required" })
+		.min(2, { message: "Username must be at least 2 characters." })
+		.max(30, { message: "Username must be at most 30 characters." }),
+	email: z
+		.string({ message: "email is required" })
+		.email({ message: "invalid email" }),
+	bio: z.string().optional(),
+});
+
+export type ProfileFormSchemaType = Zod.infer<typeof ProfileFormSchema>;
