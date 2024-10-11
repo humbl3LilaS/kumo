@@ -6,6 +6,7 @@ import RootLayout from "./_root/RootLayout";
 import { Toaster } from "./components/ui/toaster";
 import CreatePost from "./_root/pages/CreatePost";
 import EditPost from "./_root/pages/EditPost";
+import PostDetails from "./_root/pages/PostDetails";
 
 const router = createBrowserRouter([
 	{
@@ -29,8 +30,8 @@ const router = createBrowserRouter([
 				element: <div>saves</div>,
 			},
 			{
-				path: "posts/:id",
-				element: <div>post deatail</div>,
+				path: "posts/:postId",
+				element: <PostDetails />,
 			},
 			{
 				path: "create-post",
