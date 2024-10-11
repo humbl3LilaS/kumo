@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
+	getAllUsers,
 	getCurrentUser,
 	getInfinitePosts,
 	getPostById,
@@ -66,6 +67,14 @@ export const useSavedPostByUserId = (userId: string) => {
 		queryKey: ["saved-posts"],
 		queryFn: () => getSavedPost({ userId }),
 		enabled: !!userId,
+		staleTime: 24 * 60 * 1000,
+	});
+};
+
+export const useGetAllUser = (currnetUserId: string | undefined) => {
+	return useQuery({
+		queryKey: ["all-user"],
+		queryFn: () => getAllUsers(currnetUserId),
 		staleTime: 24 * 60 * 1000,
 	});
 };

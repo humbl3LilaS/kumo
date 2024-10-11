@@ -9,6 +9,7 @@ import EditPost from "./_root/pages/EditPost";
 import PostDetails from "./_root/pages/PostDetails";
 import Explore from "./_root/pages/Explore";
 import Save from "./_root/pages/Save";
+import AllUsers from "./_root/pages/AllUsers";
 
 const router = createBrowserRouter([
 	{
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "all-users",
-				element: <div>all users</div>,
+				element: <AllUsers />,
 			},
 			{
 				path: "saved",

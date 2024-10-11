@@ -413,3 +413,23 @@ export async function getSavedPost({ userId }: { userId: string }) {
 		console.log("error occour at getSavedPost", error);
 	}
 }
+
+export async function getAllUsers(currentUserId: string | undefined) {
+	try {
+		if (!currentUserId) {
+			return;
+		}
+
+		const users = databases.listDocuments(
+			appwriteConfig.databaeId,
+			appwriteConfig.usersCollectionId,
+			[Query.notEqual("$id", currentUserId)],
+		);
+		if (!users) {
+			throw new Error();
+		}
+		return users;
+	} catch (error) {
+		console.log("error occour at getAllUser", error);
+	}
+}
