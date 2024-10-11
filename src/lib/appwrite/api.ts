@@ -52,7 +52,10 @@ export async function saveUser(user: {
 
 export async function signInAccount(user: SignInInfo) {
 	try {
-		await account.deleteSession("current");
+		const currentAccount = await account.get();
+		if (currentAccount) {
+			await account.deleteSession("current");
+		}
 		const session = await account.createEmailPasswordSession(
 			user.email,
 			user.password,
@@ -88,7 +91,7 @@ export async function getCurrentUser() {
 
 export async function signOut() {
 	try {
-		await account.deleteSession("current");
+		await account.deleteSessions();
 	} catch (error) {
 		console.log(error);
 	}
