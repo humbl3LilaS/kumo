@@ -14,9 +14,14 @@ import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
+import { useUpdateUserInfo } from "@/lib/query/mutation";
+import { useToast } from "@/hooks/use-toast";
 
 const ProfileForm = ({ data }: { data: Models.Document }) => {
 	const navigate = useNavigate();
+
+	const { toast } = useToast();
+
 	const form = useForm<ProfileFormSchemaType>({
 		resolver: zodResolver(ProfileFormSchema),
 		defaultValues: {
@@ -26,9 +31,22 @@ const ProfileForm = ({ data }: { data: Models.Document }) => {
 			bio: data && (data.bio ?? ""),
 		},
 	});
+	const { mutateAsync: updateUserInfo } = useUpdateUserInfo();
 
-	const onSubmit: SubmitHandler<ProfileFormSchemaType> = (value) => {
+	const onSubmit: SubmitHandler<ProfileFormSchemaType> = async (value) => {
 		console.log(value);
+
+		const updatedUserInfo = await updateUserInfo({
+			id: data.$id,
+			name: value.name,
+			username: value.userName,
+			email: value.email,
+			bio: value.bio,
+		});
+
+		if (!updatedUserInfo) {
+			toast({ title: "Updating user info fail" });
+		}
 		navigate(`/profile/${data.$id}`);
 	};
 

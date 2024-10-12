@@ -1,5 +1,11 @@
 import { ID, ImageGravity, Query } from "appwrite";
-import { SignInInfo, TPost, TUpdatePost, TUserSignUpInfo } from "./api.types";
+import {
+	SignInInfo,
+	TPost,
+	TUpdatePost,
+	TUserInfo,
+	TUserSignUpInfo,
+} from "./api.types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 export async function createUserAccount(user: TUserSignUpInfo) {
@@ -453,5 +459,35 @@ export async function getUserById(userId: string) {
 		return user.documents[0];
 	} catch (error) {
 		console.log("error occour at getUserById", error);
+	}
+}
+
+export async function updateUserInfo({
+	id,
+	name,
+	username,
+	email,
+	bio,
+}: TUserInfo) {
+	try {
+		const updatedUserInfo = databases.updateDocument(
+			appwriteConfig.databaeId,
+			appwriteConfig.usersCollectionId,
+			id,
+			{
+				name,
+				username,
+				email,
+				bio,
+			},
+		);
+		if (!updateUserInfo) {
+			throw new Error();
+		}
+
+		console.log(updatedUserInfo);
+		return updatedUserInfo;
+	} catch (error) {
+		console.log("Error occour in updateUserInfo", error);
 	}
 }

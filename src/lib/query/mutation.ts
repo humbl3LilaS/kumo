@@ -9,11 +9,13 @@ import {
 	signInAccount,
 	signOut,
 	updatePost,
+	updateUserInfo,
 } from "../appwrite/api";
 import {
 	SignInInfo,
 	TPost,
 	TUpdatePost,
+	TUserInfo,
 	TUserSignUpInfo,
 } from "../appwrite/api.types";
 
@@ -150,6 +152,18 @@ export const useDeletePost = () => {
 			await queryClient.removeQueries({
 				queryKey: ["recept-posts", data?.postId],
 				exact: true,
+			});
+		},
+	});
+};
+
+export const useUpdateUserInfo = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (payload: TUserInfo) => updateUserInfo(payload),
+		onSuccess: async (data) => {
+			await queryClient.invalidateQueries({
+				queryKey: ["user", data?.$id],
 			});
 		},
 	});

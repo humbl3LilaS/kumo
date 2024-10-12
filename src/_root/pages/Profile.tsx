@@ -23,7 +23,7 @@ const Profile = () => {
 	return (
 		<div className="py-10 px-5 flex flex-col flex-1 items-center overflow-scroll md:p-14 custom-scrollbar">
 			<div className="w-full max-w-5xl flex flex-col items-center gap-6 md:gap-9">
-				<div className="w-full px-4 flex items-center justify-between">
+				<p className="w-full px-4 flex items-center justify-between">
 					<div className="flex gap-x-4 items-center">
 						<img
 							src={user?.imageUrl ?? "/assets/images/profile-placeholder.svg"}
@@ -49,6 +49,10 @@ const Profile = () => {
 							<span className="font-semibold">Edit Profile</span>
 						</Link>
 					)}
+				</p>
+
+				<div className="w-full flex justify-start">
+					{user?.bio && <p> &ldquo; {user.bio} &rdquo;</p>}
 				</div>
 
 				<div className="mt-8 w-full flex justify-start gap-x-4 ">
