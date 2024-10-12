@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 const Profile = () => {
 	const { userId } = useParams();
 	const { data: user } = useGetUserById(userId ?? "");
+	console.log(user);
 	const { data: currUser } = useUserQuery();
 	const [showLikedPost, setShowLikedPost] = useState(false);
 	const postHandler = () => {

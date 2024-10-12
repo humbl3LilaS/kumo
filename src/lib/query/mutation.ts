@@ -165,6 +165,9 @@ export const useUpdateUserInfo = () => {
 			await queryClient.invalidateQueries({
 				queryKey: ["user", data?.$id],
 			});
+			await queryClient.invalidateQueries({
+				queryKey: ["user"],
+			});
 		},
 	});
 };

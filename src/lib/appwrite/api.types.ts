@@ -29,9 +29,12 @@ export interface TUpdatePost {
 }
 
 export interface TUserInfo {
+	profile?: File[];
 	id: string;
 	name: string;
 	username: string;
 	email: string;
 	bio?: string;
+	imageId?: string;
+	imageUrl: URL;
 }

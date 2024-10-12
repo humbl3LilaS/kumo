@@ -51,6 +51,7 @@ export const PostFormSchema = z.object({
 export type PostFromSchemaType = Zod.infer<typeof PostFormSchema>;
 
 export const ProfileFormSchema = z.object({
+	profile: z.custom<File[]>().optional(),
 	name: z
 		.string({ message: "name is required" })
 		.min(2, { message: "name must be at least 2 characters." })
