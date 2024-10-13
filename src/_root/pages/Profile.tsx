@@ -9,7 +9,6 @@ import { Link, useParams } from "react-router-dom";
 const Profile = () => {
 	const { userId } = useParams();
 	const { data: user } = useGetUserById(userId ?? "");
-	console.log(user);
 	const { data: currUser } = useUserQuery();
 	const [showLikedPost, setShowLikedPost] = useState(false);
 	const postHandler = () => {
@@ -101,7 +100,7 @@ const Profile = () => {
 					{user && user?.posts.length === 0 && !showLikedPost && (
 						<div className="w-full h-40 flex justify-center items-center bg-dark-3 rounded-3xl lg:h-60">
 							<p className="text-lg font-bold text-white">
-								There is not post!! Upload a post
+								There is not post!!
 							</p>
 						</div>
 					)}

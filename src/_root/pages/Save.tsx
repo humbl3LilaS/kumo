@@ -6,9 +6,11 @@ import { Models } from "appwrite";
 export const Save = () => {
 	const { data: user } = useUserQuery();
 	const { data: savedPost } = useSavedPostByUserId(user?.$id ?? "");
-	const documents = savedPost
-		?.map((item) => item.post)
-		.filter((item) => item != null) as unknown as Models.Document[];
+	const documents =
+		savedPost &&
+		(savedPost
+			?.map((item) => item.post)
+			.filter((item) => item != null) as unknown as Models.Document[]);
 	return (
 		<div className="py-10 px-5 flex flex-col flex-1 items-center overflow-scroll md:p-14 custom-scrollbar">
 			<div className="w-full max-w-5xl flex flex-col items-center  gap-6 md:gap-9">
@@ -26,7 +28,7 @@ export const Save = () => {
 					) : (
 						<GridCardSkeleton />
 					)}
-					{documents.length === 0 && (
+					{documents && documents.length === 0 && (
 						<div className="w-full h-40 flex justify-center items-center bg-dark-3 rounded-3xl lg:h-60">
 							<p className="text-lg font-bold text-white">No saved post yet</p>
 						</div>
