@@ -11,7 +11,6 @@ const TopBar = () => {
 
 	const logOutController = async () => {
 		await signOut();
-		console.log("sign out complete");
 		localStorage.setItem("cookieFallback", "[]");
 		navigate("/auth/sign-in");
 	};

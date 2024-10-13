@@ -38,7 +38,6 @@ const PostStats = ({ data, userId }: PostStatsProps) => {
 			setLikes(
 				produce((draft) => {
 					const newLikes = draft.filter((item) => item !== userId);
-					console.log("newLikes", newLikes);
 					likePost({ postId: data.$id, likesArray: newLikes });
 					draft = newLikes;
 				}),
