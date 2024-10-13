@@ -13,7 +13,7 @@ const LeftSideBar = () => {
 	const { mutateAsync: signOut } = useSignOutAccountMutation();
 
 	const logOutController = async () => {
-		await signOut;
+		await signOut();
 		console.log("sign out complete");
 		localStorage.setItem("cookieFallback", "[]");
 		navigate("/auth/sign-in");

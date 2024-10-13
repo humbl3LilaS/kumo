@@ -10,7 +10,7 @@ const TopBar = () => {
 	const { data: user, isFetching } = useUserQuery();
 
 	const logOutController = async () => {
-		await signOut;
+		await signOut();
 		console.log("sign out complete");
 		localStorage.setItem("cookieFallback", "[]");
 		navigate("/auth/sign-in");
