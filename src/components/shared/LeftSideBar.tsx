@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useSignOutAccountMutation } from "@/lib/query/mutation";
+import ProfileSkeleton from "../skeleton/ProfileSkeleton";
 
 const LeftSideBar = () => {
 	const { data: user } = useUserQuery();
@@ -31,19 +32,23 @@ const LeftSideBar = () => {
 					/>
 					<span className="text-3xl font-extrabold tracking-wider">Kumo</span>
 				</Link>
-				<Link
-					to={`profile/${user?.$id}`}
-					className="flex items-center justify-start gap-x-4">
-					<img
-						src={user?.imageUrl || "/assets/icons/profile-placeholder.svg"}
-						alt="profile"
-						className="aspect-square w-10 rounded-full xl:w-14"
-					/>
-					<div className="flex flex-col">
-						<p className="body-bold">{user?.name}</p>
-						<p className="small-regular text-light-3">{`@${user?.username}`}</p>
-					</div>
-				</Link>
+				{user ? (
+					<Link
+						to={`profile/${user?.$id}`}
+						className="flex items-center justify-start gap-x-4">
+						<img
+							src={user?.imageUrl}
+							alt="profile"
+							className="aspect-square w-10 rounded-full xl:w-14"
+						/>
+						<div className="flex flex-col">
+							<p className="body-bold">{user?.name}</p>
+							<p className="small-regular text-light-3">{`@${user?.username}`}</p>
+						</div>
+					</Link>
+				) : (
+					<ProfileSkeleton />
+				)}
 				<ul className="flex flex-col gap-y-4">
 					{sidebarLinks.map((item) => (
 						<li

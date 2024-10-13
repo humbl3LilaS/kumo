@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useSignOutAccountMutation } from "../../lib/query/mutation";
 import { useUserQuery } from "@/lib/query/query";
+import { Skeleton } from "../ui/skeleton";
 
 const TopBar = () => {
 	const { mutateAsync: signOut } = useSignOutAccountMutation();
@@ -39,17 +40,23 @@ const TopBar = () => {
 							alt="logout"
 						/>
 					</Button>
-					<Link
-						to={`/profile/${user?.$id}`}
-						className="flex-center gap-3">
-						{!isFetching && (
-							<img
-								src={user?.imageUrl ?? "/assets/images/profile-placeholder.svg"}
-								alt="profile"
-								className="aspect-square w-8 rounded-full"
-							/>
-						)}
-					</Link>
+					{user ? (
+						<Link
+							to={`/profile/${user?.$id}`}
+							className="flex-center gap-3">
+							{!isFetching && (
+								<img
+									src={
+										user?.imageUrl ?? "/assets/images/profile-placeholder.svg"
+									}
+									alt="profile"
+									className="aspect-square w-8 rounded-full"
+								/>
+							)}
+						</Link>
+					) : (
+						<Skeleton className="aspect-square w-8 rounded-full bg-neutral-200/15" />
+					)}
 				</div>
 			</div>
 		</section>
