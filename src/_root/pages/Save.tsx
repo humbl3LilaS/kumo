@@ -26,6 +26,11 @@ export const Save = () => {
 					) : (
 						<GridCardSkeleton />
 					)}
+					{documents.length === 0 && (
+						<div className="w-full h-40 flex justify-center items-center bg-dark-3 rounded-3xl lg:h-60">
+							<p className="text-lg font-bold text-white">No saved post yet</p>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

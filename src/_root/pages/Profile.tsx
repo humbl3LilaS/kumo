@@ -98,6 +98,19 @@ const Profile = () => {
 					) : (
 						<GridPostList posts={user?.posts} />
 					)}
+					{user && user?.posts.length === 0 && !showLikedPost && (
+						<div className="w-full h-40 flex justify-center items-center bg-dark-3 rounded-3xl lg:h-60">
+							<p className="text-lg font-bold text-white">
+								There is not post!! Upload a post
+							</p>
+						</div>
+					)}
+
+					{user && user?.liked.length === 0 && showLikedPost && (
+						<div className="w-full h-40 flex justify-center items-center bg-dark-3 rounded-3xl lg:h-60">
+							<p className="text-lg font-bold text-white">No Liked post yet</p>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>
