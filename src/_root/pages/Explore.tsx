@@ -1,4 +1,5 @@
 import GridPostList from "@/components/shared/GridPostList";
+import GridCardSkeleton from "@/components/skeleton/GridCardSkeleton";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetPosts, useSearchPost } from "@/lib/query/query";
@@ -52,29 +53,34 @@ const Explore = () => {
 
 			{!searchValue && (
 				<div className="w-full max-w-5xl flex flex-wrap gap-9">
-					{posts &&
+					{posts ? (
 						posts.pages.map((item, index) => (
 							<GridPostList
 								key={`page-${index}`}
 								posts={item.documents}
 								showStatus={true}
 							/>
-						))}
+						))
+					) : (
+						<GridCardSkeleton />
+					)}
 				</div>
 			)}
 
 			{searchValue && (
 				<div className="w-full max-w-5xl flex flex-wrap gap-9">
-					{searchedPosts && (
+					{searchedPosts ? (
 						<GridPostList
 							posts={searchedPosts.documents}
 							showStatus={true}
 						/>
+					) : (
+						[0, 1, 2].map((item) => <GridCardSkeleton key={item} />)
 					)}
 				</div>
 			)}
 
-			{hasNextPage && !searchValue && (
+			{posts && hasNextPage && !searchValue && (
 				<div
 					ref={ref}
 					className="mt-10">

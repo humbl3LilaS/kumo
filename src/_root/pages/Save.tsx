@@ -1,4 +1,5 @@
 import GridPostList from "@/components/shared/GridPostList";
+import GridCardSkeleton from "@/components/skeleton/GridCardSkeleton";
 import { useSavedPostByUserId, useUserQuery } from "@/lib/query/query";
 import { Models } from "appwrite";
 
@@ -20,7 +21,11 @@ export const Save = () => {
 					<span>Saved Post</span>
 				</h2>
 				<div className="w-full max-w-5xl flex flex-wrap gap-9">
-					{documents && <GridPostList posts={documents} />}
+					{documents ? (
+						<GridPostList posts={documents} />
+					) : (
+						<GridCardSkeleton />
+					)}
 				</div>
 			</div>
 		</div>

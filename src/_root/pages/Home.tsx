@@ -1,4 +1,5 @@
 import Post from "@/components/shared/Post";
+import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import { useGetRecentPosts } from "@/lib/query/query";
 
 const Home = () => {
@@ -20,7 +21,7 @@ const Home = () => {
 								))}
 						</ul>
 					) : (
-						<div>loading</div>
+						<PostSkeleton />
 					)}
 				</div>
 			</div>

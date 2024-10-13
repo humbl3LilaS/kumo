@@ -1,4 +1,5 @@
 import GridPostList from "@/components/shared/GridPostList";
+import GridCardSkeleton from "@/components/skeleton/GridCardSkeleton";
 import ProfileSkeleton from "@/components/skeleton/ProfileSkeleton";
 import { Button } from "@/components/ui/button";
 import { useGetUserById, useUserQuery } from "@/lib/query/query";
@@ -49,8 +50,7 @@ const Profile = () => {
 						/>
 					)}
 
-					{/* <ProfileSkeleton className="min-w-40 md:min-w-60" /> */}
-					{user?.$id === currUser?.$id && (
+					{user && user?.$id === currUser?.$id && (
 						<Link
 							className="py-2 px-2 bg-stone-600 flex rounded-xl lg:py-4 lg:px-4"
 							to={`/profile/edit/${userId}`}>
@@ -65,7 +65,7 @@ const Profile = () => {
 				</p>
 
 				<div className="w-full flex justify-start">
-					{user?.bio && <p> &ldquo; {user.bio} &rdquo;</p>}
+					{user && user?.bio && <p> &ldquo; {user.bio} &rdquo;</p>}
 				</div>
 
 				<div className="mt-8 w-full flex justify-start gap-x-4 ">
@@ -92,6 +92,7 @@ const Profile = () => {
 				</div>
 
 				<div className="w-full max-w-5xl flex flex-wrap gap-9">
+					{!user && <GridCardSkeleton />}
 					{user && showLikedPost ? (
 						<GridPostList posts={user?.liked} />
 					) : (
