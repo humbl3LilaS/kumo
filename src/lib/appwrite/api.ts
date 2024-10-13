@@ -98,6 +98,7 @@ export async function getCurrentUser() {
 export async function signOut() {
 	try {
 		await account.deleteSessions();
+		return;
 	} catch (error) {
 		console.log(error);
 	}

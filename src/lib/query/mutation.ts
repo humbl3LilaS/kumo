@@ -42,6 +42,7 @@ export const useSignOutAccountMutation = () => {
 	return useMutation({
 		mutationFn: signOut,
 		onSuccess: async () => {
+			localStorage.removeItem("cookieFallback");
 			await queryClient.invalidateQueries({
 				queryKey: ["user"],
 			});

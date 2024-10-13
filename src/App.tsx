@@ -12,11 +12,13 @@ import Save from "./_root/pages/Save";
 import AllUsers from "./_root/pages/AllUsers";
 import Profile from "./_root/pages/Profile";
 import EditProfile from "./_root/pages/EditProfile";
+import { authRouteGuard, routeGuard } from "./loader";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <RootLayout />,
+		loader: routeGuard,
 		children: [
 			{
 				index: true,
@@ -25,34 +27,42 @@ const router = createBrowserRouter([
 			{
 				path: "explore",
 				element: <Explore />,
+				loader: routeGuard,
 			},
 			{
 				path: "all-users",
 				element: <AllUsers />,
+				loader: routeGuard,
 			},
 			{
 				path: "saved",
 				element: <Save />,
+				loader: routeGuard,
 			},
 			{
 				path: "posts/:postId",
 				element: <PostDetails />,
+				loader: routeGuard,
 			},
 			{
 				path: "create-post",
 				element: <CreatePost />,
+				loader: routeGuard,
 			},
 			{
 				path: "update-post/:postId",
 				element: <EditPost />,
+				loader: routeGuard,
 			},
 			{
 				path: `profile/:userId`,
 				element: <Profile />,
+				loader: routeGuard,
 			},
 			{
 				path: "profile/edit/:userId",
 				element: <EditProfile />,
+				loader: routeGuard,
 			},
 		],
 	},
@@ -63,10 +73,12 @@ const router = createBrowserRouter([
 			{
 				path: "sign-in",
 				element: <SigninForm />,
+				loader: authRouteGuard,
 			},
 			{
 				path: "sign-up",
 				element: <SignupForm />,
+				loader: authRouteGuard,
 			},
 		],
 	},
