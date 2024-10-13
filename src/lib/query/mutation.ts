@@ -73,12 +73,15 @@ export const useLikePost = () => {
 			postId: string;
 			likesArray: string[];
 		}) => likePost(postId, likesArray),
-		onSuccess: () => {
-			queryClinet.invalidateQueries({
+		onSuccess: async () => {
+			await queryClinet.invalidateQueries({
 				queryKey: ["recent-posts"],
 			});
-			queryClinet.invalidateQueries({
+			await queryClinet.invalidateQueries({
 				queryKey: ["user"],
+			});
+			await queryClinet.invalidateQueries({
+				queryKey: ["infinite-posts"],
 			});
 		},
 	});
