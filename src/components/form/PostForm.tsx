@@ -80,7 +80,6 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
 	const cancelBtnHandler = async () => {
 		if (action === "Update") {
-			console.log("action delete");
 			await deletePost({ postId: post?.$id ?? "", imageId: post?.imageId });
 		}
 		return navigate("/");

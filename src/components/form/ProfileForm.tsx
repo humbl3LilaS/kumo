@@ -35,8 +35,6 @@ const ProfileForm = ({ data }: { data: Models.Document }) => {
 	const { mutateAsync: updateUserInfo } = useUpdateUserInfo();
 
 	const onSubmit: SubmitHandler<ProfileFormSchemaType> = async (value) => {
-		console.log(value);
-
 		const updatedUserInfo = await updateUserInfo({
 			profile: value.profile,
 			id: data.$id,

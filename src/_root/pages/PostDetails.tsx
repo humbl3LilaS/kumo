@@ -14,7 +14,6 @@ const PostDetails = () => {
 
 	const deleteHandler = async () => {
 		if (post) {
-			console.log("deleting");
 			await deletePost({ postId: post.$id, imageId: post?.imageId });
 			return navigate("/");
 		}
@@ -37,6 +36,7 @@ const PostDetails = () => {
 								to={`/profile/${post.creator?.$id}`}
 								className="w-full flex items-center gap-x-4">
 								<img
+									alt={"profile icon"}
 									src={
 										post?.creator?.imageUrl ||
 										"/assets/icons/profile-placeholder.svg"

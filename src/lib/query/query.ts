@@ -47,8 +47,7 @@ export const useGetPosts = () => {
 			}
 
 			// Use the $id of the last document as the cursor.
-			const lastId = lastPage?.documents[lastPage?.documents.length - 1].$id;
-			return lastId;
+			return lastPage?.documents[lastPage?.documents.length - 1].$id;
 		},
 		initialPageParam: "",
 		staleTime: 24 * 60 * 1000,
@@ -74,6 +73,7 @@ export const useSavedPostByUserId = (userId: string) => {
 
 export const useGetAllUser = (currnetUserId: string | undefined) => {
 	return useQuery({
+		enabled: !!currnetUserId,
 		queryKey: ["all-user"],
 		queryFn: () => getAllUsers(currnetUserId),
 		staleTime: 24 * 60 * 1000,
